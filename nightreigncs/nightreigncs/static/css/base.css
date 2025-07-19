@@ -1,0 +1,96 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: sans-serif;
+}
+
+.left-column {
+  float: left;
+  width: 30%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: #f2f2f2;
+}
+
+.right-column {
+  float: left;
+  width: 70%;
+  height: 100%;
+}
+
+.location-item {
+  display: flex;
+  margin: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.location-left {
+  text-align: center;
+  margin-right: 10px;
+}
+
+.location-left img {
+  width: 100px;
+  height: 100px;
+}
+
+.character-section {
+  height: 80%;
+  overflow-y: auto;
+}
+
+.nightlord-section {
+  height: 20%;
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.accordion-vertical .accordion-item {
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.accordion-vertical .accordion-item .accordion-title {
+  padding: 15px;
+  background-color: #eee;
+}
+
+.accordion-vertical .accordion-item img {
+  width: 100%;
+  display: none;
+}
+
+.accordion-vertical .accordion-item.active img {
+  display: block;
+}
+
+#nightlord-select {
+  margin-right: 10px;
+}
+
+.nightlord-info {
+  display: flex;
+  align-items: center;
+}
+
+.main-weakness, .vulnerabilities {
+  margin-right: 20px;
+}
+
+#vulnerability-list {
+  display: flex;
+}
+
+#vulnerability-list div {
+  margin-right: 10px;
+  text-align: center;
+}
+
+#vulnerability-list img {
+  width: 30px;
+  height: 30px;
+}
