@@ -1,52 +1,60 @@
-body, html {
-  margin: 0;
-  padding: 0;
+body {
+  display: flex;
   height: 100%;
-  font-family: sans-serif;
 }
 
-.left-column {
-  float: left;
-  width: 30%;
+.locations-column {
+  width: 20%;
   height: 100%;
   overflow-y: auto;
   background-color: #f2f2f2;
-}
-
-.right-column {
-  float: left;
-  width: 70%;
-  height: 100%;
+  flex-shrink: 0;
 }
 
 .location-item {
   display: flex;
-  margin: 10px;
+  margin: 0.5rem 1rem; /* reduce top/bottom margin */
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 0.5rem 1rem; /* reduce top/bottom padding */
+  align-items: center;  /* vertically center content */
+  max-height: 80px;
+  overflow: hidden;
+}
+
+.location-item p {
+  margin: 0;
+  line-height: 1.2;
 }
 
 .location-left {
   text-align: center;
-  margin-right: 10px;
+  margin-right: 1rem;
 }
 
 .location-left img {
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: auto;
+}
+
+.location-right {
+  margin-left: 1rem;
+}
+
+.loot-img {
+  height: 30px;
+  width: auto;
+}
+
+.info-column {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .character-section {
-  height: 80%;
+  height: 85%;
   overflow-y: auto;
-}
-
-.nightlord-section {
-  height: 20%;
-  border-top: 1px solid #ccc;
-  padding: 10px;
-  display: flex;
-  align-items: center;
 }
 
 .accordion-vertical .accordion-item {
@@ -68,29 +76,69 @@ body, html {
   display: block;
 }
 
-#nightlord-select {
-  margin-right: 10px;
+.nightlord-section {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem; /* adds space between children */
+  padding: 0.5rem 1rem; /* adds padding around the whole section */
+}
+
+.nightlord-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1rem; /* optional: explicit margin if you want more than gap provides */
+  flex-shrink: 0; /* prevents it from collapsing */
+}
+
+.expedition-icon {
+  width: 120px;
+  height: auto;
 }
 
 .nightlord-info {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.nightlord-entry {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  width: 100%;
+  padding-right: 3rem;
+  gap: 1.5rem;
+}
+
+.other-vulnerabilities {
+  display: flex;
+  flex-direction: row;
   align-items: center;
 }
 
-.main-weakness, .vulnerabilities {
-  margin-right: 20px;
+.main-weakness {
+  border: 2px solid red;
 }
 
-#vulnerability-list {
+.vulnerability-entry {
   display: flex;
+  flex-direction: column;
+  align-items: center; /* centers the text and image horizontally */
 }
 
-#vulnerability-list div {
-  margin-right: 10px;
-  text-align: center;
+.vulnerability-entry img {
+  height: 60px;
+  padding: 0.3rem;
+  width: auto;
 }
 
-#vulnerability-list img {
-  width: 30px;
-  height: 30px;
+.vulnerability-entry span {
+  font-weight: bold; /* makes the text bold */
+  text-align: center; /* optional, but good practice */
 }
+
+

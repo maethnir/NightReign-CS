@@ -1,31 +1,42 @@
 from django.shortcuts import render
-from .models import Location, Nightfarer, Nightlord
+from .models import Location, Nightfarer, Expedition
 
 def viewer_page(request):
     locations = Location.objects.all()
     nightfarers = Nightfarer.objects.all()
-    nightlords = Nightlord.objects.select_related('main_weakness').prefetch_related('weaknesses__damage')
+    expeditions = Expedition.objects.prefetch_related("Nightlords__weaknesses__damage", "Nightlords__main_weakness")
 
-    # Prepare JS-safe nightlord data
-    nightlord_data = {
-        nl.id: {
-            'main_weakness': {
-                'name': nl.main_weakness.name,
-                'icon_url': nl.main_weakness.icon.url
-            },
-            'vulnerabilities': [
-                {
-                    'name': vuln.damage.name,
-                    'percent': vuln.percent,
-                    'icon_url': vuln.damage.icon.url
-                } for vuln in nl.weaknesses.all()
-            ]
-        } for nl in nightlords
-    }
+    nightlord_data = {}
+    expedition_data = {}
 
-    return render(request, 'base.html', {
+    for ex in expeditions:
+        expedition_data[ex.id] = {
+            "name": ex.name,
+            "icon_url": ex.icon.url
+        }
+        nightlords = []
+        for nl in ex.Nightlords.all():
+            nightlords.append({
+                "name": nl.name,
+                "main_weakness": {
+                    "name": nl.main_weakness.name if nl.main_weakness else "None",
+                    "icon_url": nl.main_weakness.icon.url if nl.main_weakness and nl.main_weakness.icon else ""
+                },
+                "vulnerabilities": [
+                    {
+                        "name": vuln.damage.name,
+                        "icon_url": vuln.damage.icon.url if vuln.damage.icon else "",
+                        "is_condition": vuln.damage.is_condition,
+                        "value": vuln.value
+                    } for vuln in nl.weaknesses.all()
+                ]
+            })
+        nightlord_data[ex.id] = nightlords
+
+    return render(request, 'cheatsheet.html', {
         'locations': locations,
         'nightfarers': nightfarers,
-        'nightlords': nightlords,
-        'nightlord_data': nightlord_data,
+        'expeditions': expeditions,
+        'expedition_data': expedition_data,
+        'nightlord_data': nightlord_data
     })

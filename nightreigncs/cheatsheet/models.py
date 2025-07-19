@@ -36,6 +36,9 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
+    def loot(self):
+        return list(self.contains)
+
 class Expedition(models.Model):
     name = models.CharField(max_length=25)
     icon = models.ImageField(upload_to='Expeditions')

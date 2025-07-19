@@ -7,21 +7,38 @@
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
-  <div class="left-column">
+  <div class="locations-column">
     {% for location in locations %}
       <div class="location-item">
         <div class="location-left">
-          <img src="{{ location.image.url }}" alt="{{ location.name }}">
-          <p>{{ location.name }}</p>
+          <img class="location-img" src="{{ location.image.url }}" alt="{{ location.name }}">
         </div>
         <div class="location-right">
-          <p>Min Level: {{ location.min_level }}</p>
+          <p><b>{{ location.name }}</b> (Lvl {{ location.min_level }} - {{ location.recommended_level }})</p>
+          {% for it in location.contains.all %}
+            <img class="loot-img" src="{{ it.icon.url }}" alt="{{ it.name }}"></img>
+          {% endfor %}
         </div>
       </div>
     {% endfor %}
   </div>
 
-  <div class="right-column">
+  <div class="info-column">
+
+    <div class="nightlord-section">
+      <div class="nightlord-selection" id="nightlord-selection">
+        <select id="expedition-select" onchange="selectExpedition(this)">
+          {% for ex in expeditions %}
+            <option value="{{ ex.id }}">{{ ex.name }}</option>
+          {% endfor %}
+        </select>
+        <!-- Expedition image will be injected by JS -->
+      </div>
+      <div id="nightlord-info" class="nightlord-info">
+        <!-- Nightlord entries will be injected here by JS -->
+      </div>
+    </div>
+
     <div class="character-section">
       <div class="accordion-vertical" id="character-accordion">
         {% for nf in nightfarers %}
@@ -33,27 +50,18 @@
       </div>
     </div>
 
-    <div class="nightlord-section">
-      <select id="nightlord-select" onchange="selectNightlord(this)">
-        {% for nl in nightlords %}
-        <option value="{{ nl.id }}" data-icon-url="{{ nl.icon.url }}">{{ nl.name }}</option>
-        {% endfor %}
-      </select>
-      <div class="nightlord-info">
-        <div class="main-weakness">
-          <strong>Main Weakness:</strong>
-          <img id="main-weakness-icon" src="" alt="Main Weakness">
-        </div>
-        <div class="vulnerabilities">
-          <strong>Other Vulnerabilities:</strong>
-          <div id="vulnerability-list"></div>
-        </div>
-      </div>
-    </div>
   </div>
+  <!-- 1. Inject the JSON safely -->
+  {{ nightlord_data|json_script:"nightlord-data" }}
+  {{ expedition_data|json_script:"expedition-data" }}
+
+  <!-- 2. Parse it into a JS variable -->
   <script>
-    window.nightlordData = JSON.parse('{{ nightlord_data|safe|escapejs }}');
+    window.nightlordData = JSON.parse(document.getElementById('nightlord-data').textContent);
+    window.expeditionData = JSON.parse(document.getElementById('expedition-data').textContent);
   </script>
+
+  <!-- 3. Load your main JS script -->
   <script src="{% static 'js/base.js' %}"></script>
 </body>
 </html>
