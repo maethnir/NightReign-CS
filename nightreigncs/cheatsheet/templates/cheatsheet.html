@@ -51,8 +51,9 @@
       </div>
     </div>
   </div>
-  <script src="{% static 'js/base.js' %}">
-    window.nightlordData = {{ nightlord_data|safe }};
+  <script>
+    window.nightlordData = JSON.parse('{{ nightlord_data|safe|escapejs }}');
   </script>
+  <script src="{% static 'js/base.js' %}"></script>
 </body>
 </html>
