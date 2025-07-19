@@ -23,7 +23,7 @@ def viewer_page(request):
         } for nl in nightlords
     }
 
-    return render(request, 'cheatsheet.html', {
+    return render(request, 'base.html', {
         'locations': locations,
         'nightfarers': nightfarers,
         'nightlords': nightlords,
