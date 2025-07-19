@@ -40,12 +40,18 @@
     </div>
 
     <div class="character-section">
-      <div class="accordion-vertical" id="character-accordion">
+      <div class="tab-container">
         {% for nf in nightfarers %}
-        <div class="accordion-item{% if forloop.first %} active{% endif %}" onclick="toggleAccordion(this, 'character')">
-          <div class="accordion-title">{{ nf.name }}</div>
-          <img src="{{ nf.summary.url }}" alt="{{ nf.name }}">
-        </div>
+          <div class="tab-item{% if forloop.first %} active{% endif %}" onclick="openTab(event, '{{ nf.name }}')">
+            {{ nf.name }}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="tab-content-container">
+        {% for nf in nightfarers %}
+          <div id="{{ nf.name }}" class="tab-content{% if forloop.first %} active{% endif %}">
+            <img src="{{ nf.summary.url }}" alt="{{ nf.name }}">
+          </div>
         {% endfor %}
       </div>
     </div>
