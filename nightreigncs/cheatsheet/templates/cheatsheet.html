@@ -3,7 +3,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Nightfarer Viewer</title>
+  <title>Nightreign Cheatsheet</title>
+  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
@@ -81,7 +82,7 @@
           </table>
         </div>
         {% for nf in nightfarers %}
-          <div id="{{ nf.name }}" class="tab-content{% if forloop.first %} active{% endif %}">
+          <div id="{{ nf.name }}" class="tab-content" style="display:{% if forloop.first %} block{% else %} none{% endif %};">
             <img src="{{ nf.summary.url }}" alt="{{ nf.name }}">
           </div>
         {% endfor %}
