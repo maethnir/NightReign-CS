@@ -259,12 +259,6 @@ h3 {
   align-items: center;
 }
 
-.main-weakness {
-  border: 2px solid #152142;
-  background-color: rgb(4, 6, 18);
-  color: #fcb700;
-}
-
 .vulnerability-entry {
   display: flex;
   flex-direction: column;
@@ -283,6 +277,27 @@ h3 {
   /* makes the text bold */
   text-align: center;
   /* optional, but good practice */
+}
+
+.green {
+  color:  #5ccf58 ;
+}
+
+.red {
+  color: #de2626 ;
+}
+
+.gray {
+  color: #888888 
+}
+
+.gold {
+  color: #fcb700;
+}
+
+.main-weakness {
+  border: 2px solid #152142;
+  background-color: rgb(4, 6, 18);
 }
 
 /* NIGHTFARERS SECTION */

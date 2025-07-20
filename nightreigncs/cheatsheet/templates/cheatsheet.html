@@ -62,7 +62,15 @@
               {% for vul in nl.weaknesses.all %}
                 <div class="vulnerability-entry {% if nl.main_weakness.name == vul.damage.name %}main-weakness{% endif %}">
                   <img src="{{ vul.damage.icon.url }}" alt="{{ vul.damage.name }}" title="{{ vul.damage.name }}">
-                  <span>{{ vul.value }}{% if not vul.damage.is_condition %}%{% endif %}</span>
+                  {% if vul.damage.is_condition %}
+                    {% if vul.value == 0 %}
+                    <span class="gray">Immune</span>
+                    {% else %}
+                    <span class="{% if vul.value < 200 %}green{% elif vul.value > 500 %}red{% else %}{% endif %}">{{ vul.value }}</span>
+                    {% endif %}
+                  {% else %}
+                  <span class="{% if nl.main_weakness.name == vul.damage.name %}gold{% elif vul.value > 0 %}green{% elif vul.value < 0 %}red{% else %}{% endif %}">{{ vul.value }}%</span>
+                  {% endif %}
                 </div>
               {% endfor %}
             </div>
