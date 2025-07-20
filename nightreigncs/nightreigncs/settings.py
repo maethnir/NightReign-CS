@@ -128,4 +128,4 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'nightreigncs', 'static')]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DISTILL_DIR = os.path.join(BASE_DIR, '../nightreigh-cheat-sheet')
+DISTILL_DIR = os.path.join(BASE_DIR, '../docs')

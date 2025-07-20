@@ -28,7 +28,7 @@ jobs:
       run: python nightreigncs/manage.py collectstatic --noinput
 
     - name: Build static site with django-distill
-      run: python nightreigncs/manage.py distill-local --force --output-dir docs
+      run: python nightreigncs/manage.py distill-local --force
 
     - name: Fix static/media paths in index.html
       run: |
