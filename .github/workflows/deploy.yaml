@@ -34,6 +34,9 @@ jobs:
       run: |
         sed -i 's|/static/|static/|g' docs/index.html
         sed -i 's|/media/|media/|g' docs/index.html
+    
+    - name: Prevent Jekyll
+      run: touch /docs/.nojekyll
 
     - name: Zip the static site
       run: |
