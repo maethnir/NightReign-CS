@@ -40,18 +40,18 @@ jobs:
         run: python nightreigncs/manage.py collectstatic --noinput
 
       - name: Build static site with django-distill
-        run: python nightreigncs/manage.py distill-local --force --output-dir dist
+        run: python nightreigncs/manage.py distill-local --force
 
       - name: Fix paths and disable Jekyll
         run: |
-          sed -i 's|/static/|static/|g' dist/index.html
-          sed -i 's|/media/|media/|g' dist/index.html
-          touch dist/.nojekyll
+          sed -i 's|/static/|static/|g' nightreign-character-sheet/index.html
+          sed -i 's|/media/|media/|g' nightreign-character-sheet/index.html
+          touch nightreign-character-sheet/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist'
+          path: 'nightreign-character-sheet'
 
       - name: Deploy to GitHub Pages
         id: deployment
