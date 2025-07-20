@@ -8,71 +8,43 @@ function openTab(evt, tabName) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(tabName).style.display = "block";
+  document.getElementById(tabName).style.display = "flex";
   evt.currentTarget.className += " active";
 }
 
-function selectExpedition(selectElement) {
-  const expeditionId = selectElement.value;
-  const nightlords = window.nightlordData[expeditionId];
-  const expedition = window.expeditionData[expeditionId];
-  const selectorSection = document.getElementById("nightlord-selection");
-  const infoSection = document.getElementById("nightlord-info");
-
-  // Remove previously added expedition icons only
-  const existingIcons = selectorSection.querySelectorAll('.expedition-icon');
-  existingIcons.forEach(icon => icon.remove());
-
-  // Add new expedition icon
-  const expeditionIcon = document.createElement("img");
-  expeditionIcon.src = expedition.icon_url;
-  expeditionIcon.alt = expedition.name;
-  expeditionIcon.title = expedition.name;
-  expeditionIcon.classList.add("expedition-icon"); // tag it
-  selectorSection.appendChild(expeditionIcon);
-
-  infoSection.innerHTML = '';
-
-  if (!nightlords || nightlords.length === 0) {
-    infoSection.innerHTML = '<p>No Nightlords found for this expedition.</p>';
-    return;
+function openExpeditionModal() {
+  const modal = document.getElementById("expedition-modal");
+  if (modal) {
+    modal.style.display = "flex";
   }
+}
 
-  nightlords.forEach(nl => {
-    const nlDiv = document.createElement("div");
-    nlDiv.classList.add("nightlord-entry");
+function closeExpeditionModal() {
+  const modal = document.getElementById("expedition-modal");
+  if (modal) {
+    modal.style.display = "none";
+  }
+}
 
-    const title = document.createElement("h3");
-    title.textContent = nl.name;
+window.addEventListener("click", function (event) {
+  const modal = document.getElementById("expedition-modal");
+  if (event.target === modal) {
+    closeExpeditionModal();
+  }
+});
 
-    const vulnList = document.createElement("div");
-    vulnList.classList.add("other-vulnerabilities")
 
-    nl.vulnerabilities.forEach(vuln => {
-      const vulnDiv = document.createElement("div");
-      vulnDiv.classList.add("vulnerability-entry");
+function selectExpedition(expeditionId) {
+  // Toggle displays of each expedition
+  const nightlordSection = document.getElementById("nightlord-section");
 
-      const vulnImg = document.createElement("img");
-      if(vuln.name == nl.main_weakness.name){
-        vulnDiv.classList.add("main-weakness")
-      }
-      vulnImg.src = vuln.icon_url;
-      vulnImg.alt = vuln.name;
-      vulnImg.title = vuln.name;
-      
-      const vulnText = document.createElement("span");
-      vulnText.textContent = vuln.is_condition ? vuln.value==0 ? `Immune`: ` ${vuln.value}`:` ${vuln.value}%`;
+  const expeditions = nightlordSection.querySelectorAll('.expedition-selection');
+  expeditions.forEach(ex => ex.style.display = "none");
+  const selectedExpedition = nightlordSection.querySelectorAll(`.expedition-${expeditionId}`);
+  selectedExpedition.forEach(ex => ex.style.display = "flex");
 
-      vulnDiv.appendChild(vulnImg);
-      vulnDiv.appendChild(vulnText);
-      vulnList.appendChild(vulnDiv);
-    });
-
-    nlDiv.appendChild(title);
-    nlDiv.appendChild(vulnList);
-
-    infoSection.appendChild(nlDiv);
-  });
+  // Close the pop-up
+  closeExpeditionModal();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

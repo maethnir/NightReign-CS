@@ -30,20 +30,48 @@
   </div>
 
   <div class="info-column">
-
-    <div class="nightlord-section">
-      <div class="nightlord-selection" id="nightlord-selection">
-        <select id="expedition-select" onchange="selectExpedition(this)">
+    <div id="expedition-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeExpeditionModal()">&times;</span>
+        <h1>Select Expedition</h1>
+        <div class="expedition-grid">
           {% for ex in expeditions %}
-            <option value="{{ ex.id }}">{{ ex.name }}</option>
+          <div class="expedition-option">
+            <h2 class="expedition-name clickable" onclick="selectExpedition('{{ ex.id }}')">{{ ex.name }}</h2>
+            <img class="expedition-icon clickable" src="{{ ex.icon.url }}" alt="{{ ex.name }}" title="{{ ex.name }}" onclick="selectExpedition('{{ ex.id }}')">
+          </div>
           {% endfor %}
-        </select>
-        <!-- Expedition image will be injected by JS -->
-      </div>
-      <div id="nightlord-info" class="nightlord-info">
-        <!-- Nightlord entries will be injected here by JS -->
+        </div>
       </div>
     </div>
+    <div class="nightlord-section" id="nightlord-section">
+      {% for ex in expeditions %}
+      <div class="expedition-selection expedition-{{ ex.id }}"
+        id="expedition-selection"
+        style="{% if forloop.first %}display: flex;{% else %}display: none;{% endif %}"
+      >
+        <div class="expedition">
+          <h2 class="expedition-name">{{ ex.name }}</h2>
+          <img src="{{ ex.icon.url }}" alt="{{ ex.name }}" title="{{ ex.name }}" onclick="openExpeditionModal()" class="expedition-icon clickable">
+        </div>
+        <div id="nightlord-info" class="nightlord-info">
+          {% for nl in ex.Nightlords.all %}
+          <div class="nightlord-entry">
+            <h3>{{ nl.name }}</h3>
+            <div class="vulnerabilities">
+              {% for vul in nl.weaknesses.all %}
+                <div class="vulnerability-entry {% if nl.main_weakness.name == vul.damage.name %}main-weakness{% endif %}">
+                  <img src="{{ vul.damage.icon.url }}" alt="{{ vul.damage.name }}" title="{{ vul.damage.name }}">
+                  <span>{{ vul.value }}{% if not vul.damage.is_condition %}%{% endif %}</span>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+      </div>
 
     <div class="character-section">
       <div class="tab-container">
@@ -82,7 +110,7 @@
           </table>
         </div>
         {% for nf in nightfarers %}
-          <div id="{{ nf.name }}" class="tab-content" style="display:{% if forloop.first %} block{% else %} none{% endif %};">
+          <div id="{{ nf.name }}" class="tab-content" style="{% if forloop.first %}display: flex;{% else %}display: none;{% endif %}">
             <img src="{{ nf.summary.url }}" alt="{{ nf.name }}">
           </div>
         {% endfor %}
@@ -90,17 +118,6 @@
     </div>
 
   </div>
-  <!-- 1. Inject the JSON safely -->
-  {{ nightlord_data|json_script:"nightlord-data" }}
-  {{ expedition_data|json_script:"expedition-data" }}
-
-  <!-- 2. Parse it into a JS variable -->
-  <script>
-    window.nightlordData = JSON.parse(document.getElementById('nightlord-data').textContent);
-    window.expeditionData = JSON.parse(document.getElementById('expedition-data').textContent);
-  </script>
-
-  <!-- 3. Load your main JS script -->
   <script src="{% static 'js/base.js' %}"></script>
 </body>
 </html>
