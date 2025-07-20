@@ -1,22 +1,68 @@
-body, html {
+
+body,
+html {
+  font-family: "Merienda", cursive;
+  font-weight: 400;
+  font-style: normal;
   display: flex;
   height: 100vh;
+  background-color: rgb(4, 6, 18);
+  background: linear-gradient(110deg,rgba(4, 6, 18, 1) 0%, rgb(26, 34, 51) 100%);
+  color: white;
+  scrollbar-width: none;
+}
+b,
+h1,
+h2,
+h3 {
+  color: #fcb700;
+  font-family: "Cinzel", serif;
+  font-weight: 600;
+}
+
+.locations-wrapper {
+  height: 100vh; /* Adjust as needed */
+  overflow: hidden;
+  position: relative;
+}
+
+.auto-scroll {
+  animation: scrollBounce 15s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.auto-scroll:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollBounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-400px); /* Scroll up amount – adjust based on content height */
+  }
 }
 
 .locations-column {
-  width: 20%;
-  height: 100%;
+  /* will-change: transform;
+  width: 100%;
+  height: 100vh;
   overflow-y: auto;
-  background-color: #f2f2f2;
   flex-shrink: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #152142 black; */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .location-item {
   display: flex;
-  margin: 0.5rem 1rem; /* reduce top/bottom margin */
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem; /* reduce top/bottom padding */
-  align-items: center;  /* vertically center content */
+  margin: 0.5rem 1rem;
+  border: 1px solid rgb(9, 21, 56);
+  padding: 0.5rem 1rem;
+  align-items: center;
   max-height: 80px;
   overflow: hidden;
 }
@@ -54,7 +100,8 @@ body, html {
 
 .character-section {
   flex: 1;
-  min-height: 0; /* allows flex child to shrink properly */
+  min-height: 0;
+  /* allows flex child to shrink properly */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -65,17 +112,18 @@ body, html {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-around;
-  background-color: #f2f2f2;
-  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #152142;
+  border-bottom: 1px solid #152142;
 }
 
 .tab-item {
   padding: 15px 20px;
   cursor: pointer;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #152142;
   flex-grow: 1;
   text-align: center;
-  background-color: #eee;
+  font-family: "Cinzel", serif;
+  font-weight: 300;
 }
 
 .tab-item:last-child {
@@ -83,17 +131,29 @@ body, html {
 }
 
 .tab-item.active {
-  background-color: #ddd;
+  background-color: rgb(4, 6, 18);
+  color: #fcb700;
+  font-family: "Cinzel", serif;
+  font-weight: 600;
 }
 
 .tab-content-container {
   flex-grow: 1;
-  overflow: hidden; /* don't allow scrollbars */
+  overflow: hidden;
+  /* don't allow scrollbars */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   max-height: 100%;
+}
+
+.tab-content-container table {
+  font-family: "Cinzel", serif;
+}
+
+.table-main-col {
+  color: #fcb700;
 }
 
 .tab-content {
@@ -116,16 +176,20 @@ body, html {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: 2rem; /* adds space between children */
-  padding: 0.5rem 1rem; /* adds padding around the whole section */
+  gap: 2rem;
+  /* adds space between children */
+  padding: 0.5rem 1rem;
+  /* adds padding around the whole section */
 }
 
 .nightlord-selection {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 1rem; /* optional: explicit margin if you want more than gap provides */
-  flex-shrink: 0; /* prevents it from collapsing */
+  margin: 0 1rem;
+  /* optional: explicit margin if you want more than gap provides */
+  flex-shrink: 0;
+  /* prevents it from collapsing */
 }
 
 .expedition-icon {
@@ -156,13 +220,16 @@ body, html {
 }
 
 .main-weakness {
-  border: 2px solid red;
+  border: 2px solid #152142;
+  background-color: rgb(4, 6, 18);
+  color: #fcb700;
 }
 
 .vulnerability-entry {
   display: flex;
   flex-direction: column;
-  align-items: center; /* centers the text and image horizontally */
+  align-items: center;
+  /* centers the text and image horizontally */
 }
 
 .vulnerability-entry img {
@@ -172,8 +239,8 @@ body, html {
 }
 
 .vulnerability-entry span {
-  font-weight: bold; /* makes the text bold */
-  text-align: center; /* optional, but good practice */
+  font-weight: bold;
+  /* makes the text bold */
+  text-align: center;
+  /* optional, but good practice */
 }
-
-

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Location, Nightfarer, Expedition
 
 def viewer_page(request):
-    locations = Location.objects.all()
+    locations = Location.objects.all().order_by('min_level')
     nightfarers = Nightfarer.objects.all()
     expeditions = Expedition.objects.prefetch_related("Nightlords__weaknesses__damage", "Nightlords__main_weakness")
 

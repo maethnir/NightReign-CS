@@ -4,23 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <title>Nightfarer Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
-  <div class="locations-column">
-    {% for location in locations %}
-      <div class="location-item">
-        <div class="location-left">
-          <img class="location-img" src="{{ location.image.url }}" alt="{{ location.name }}">
+  <div class="locations-wrapper">
+    <div class="locations-column auto-scroll">
+      {% for location in locations %}
+        <div class="location-item">
+          <div class="location-left">
+            <img class="location-img" src="{{ location.image.url }}" alt="{{ location.name }}">
+          </div>
+          <div class="location-right">
+            <p><b>{{ location.name }}</b> (Lvl {{ location.min_level }} - {{ location.recommended_level }})</p>
+            {% for it in location.contains.all %}
+              <img class="loot-img" src="{{ it.icon.url }}" alt="{{ it.name }}"></img>
+            {% endfor %}
+          </div>
         </div>
-        <div class="location-right">
-          <p><b>{{ location.name }}</b> (Lvl {{ location.min_level }} - {{ location.recommended_level }})</p>
-          {% for it in location.contains.all %}
-            <img class="loot-img" src="{{ it.icon.url }}" alt="{{ it.name }}"></img>
-          {% endfor %}
-        </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
 
   <div class="info-column">
@@ -48,6 +53,33 @@
         {% endfor %}
       </div>
       <div class="tab-content-container">
+        <div class="level-up-costs">
+          <h3>Level-Up Costs</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Level</th>
+                <th>Runes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="table-main-col">1</td><td>3,698</td></tr>
+              <tr><td class="table-main-col">2</td><td>7,922</td></tr>
+              <tr><td class="table-main-col">3</td><td>12,347</td></tr>
+              <tr><td class="table-main-col">4</td><td>16,978</td></tr>
+              <tr><td class="table-main-col">5</td><td>21,818</td></tr>
+              <tr><td class="table-main-col">6</td><td>26,869</td></tr>
+              <tr><td class="table-main-col">7</td><td>32,137</td></tr>
+              <tr><td class="table-main-col">8</td><td>37,624</td></tr>
+              <tr><td class="table-main-col">9</td><td>43,335</td></tr>
+              <tr><td class="table-main-col">10</td><td>49,271</td></tr>
+              <tr><td class="table-main-col">11</td><td>55,439</td></tr>
+              <tr><td class="table-main-col">12</td><td>61,840</td></tr>
+              <tr><td class="table-main-col">13</td><td>68,479</td></tr>
+              <tr><td class="table-main-col">14</td><td>75,358</td></tr>
+            </tbody>
+          </table>
+        </div>
         {% for nf in nightfarers %}
           <div id="{{ nf.name }}" class="tab-content{% if forloop.first %} active{% endif %}">
             <img src="{{ nf.summary.url }}" alt="{{ nf.name }}">
