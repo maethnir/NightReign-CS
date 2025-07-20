@@ -1,4 +1,4 @@
-name: Build Static Site to Docs
+name: Build and Deploy Static Site to /docs
 
 on:
   push:
@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to commit to main
 
     steps:
     - name: Checkout code
@@ -20,25 +22,25 @@ jobs:
 
     - name: Install dependencies
       run: |
-        ls
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
     - name: Collect static files
       run: python nightreigncs/manage.py collectstatic --noinput
 
-    - name: Build static site with django-distill
-      run: python nightreigncs/manage.py distill-local --force
+    - name: Build static site
+      run: python nightreigncs/manage.py distill-local --force --output-dir docs
 
     - name: Fix static/media paths in index.html
       run: |
         sed -i 's|/static/|static/|g' docs/index.html
         sed -i 's|/media/|media/|g' docs/index.html
-    
-    - name: Prevent Jekyll
-      run: touch docs/.nojekyll
+        touch docs/.nojekyll
 
-    - name: Zip the static site
+    - name: Commit and push to main/docs
       run: |
-        cd docs
-        zip -r ../nightreign-cheat-sheet.zip ./*
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add docs/
+        git commit -m "Auto-update static site in /docs" || echo "No changes to commit"
+        git push
