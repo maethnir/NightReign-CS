@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Nightreign Cheatsheet</title>
-  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+  <link rel="icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
@@ -114,6 +114,15 @@
             <img src="{{ nf.summary.url }}" alt="{{ nf.name }}">
           </div>
         {% endfor %}
+        <div class="watermark">
+          Credit for this image to Boomstick Gaming.
+          <a href="https://x.com/BoomstickAlex" target="_blank" rel="noopener noreferrer">
+            <img class="watermark-img clickable" src="/static/icons/X.png" alt="@BoomstickAlex">
+          </a>
+          <a href="https://www.youtube.com/boomstickgaming" target="_blank" rel="noopener noreferrer">
+            <img class="watermark-img clickable" src="/static/icons/YT.png" alt="@BoomstickGaming">
+          </a>
+        </div>
       </div>
     </div>
 
