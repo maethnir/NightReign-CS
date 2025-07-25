@@ -8,12 +8,11 @@ django.setup()
 from cheatsheet.models import *
 from django.db import IntegrityError
 
-data = pd.read_csv("nightreigncs/static/images/Damages/SPREAD.csv", sep=";")
+data = pd.read_csv("nightreigncs/SPREAD.csv", sep=";")
 damages = [col for col in data.columns if col != "Nightlord"]
 
 for index, row in data.iterrows():
     nightlord = Nightlord.objects.filter(name=row["Nightlord"]).first()
-    print(nightlord.name)
     if nightlord is not None:
         for damage in damages:
             try:

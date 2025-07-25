@@ -11,17 +11,55 @@
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
-  <div class="locations-wrapper">
-    <div class="locations-column auto-scroll">
+  <div class="locations" id="locations">
+    <div class="tab-container location-tabs">
+      <div class="tab-item active" onclick="openLocationTab(event, 'map-locations')">Map Locations</div>
+      <div class="tab-item" onclick="openLocationTab(event, 'events-column')">Random Events</div>
+      <div class="tab-item" onclick="openLocationTab(event, 'shifting-earth-column')">Shifting Earth</div>
+    </div>
+    <div class="locations-column auto-scroll" id="map-locations">
       {% for location in locations %}
         <div class="location-item">
           <div class="location-left">
-            <img class="location-img" src="{{ location.image.url }}" alt="{{ location.name }}">
+            <img class="location-img" src="{{ location.image.url }}" title="{{ location.name }}">
           </div>
           <div class="location-right">
-            <p><b>{{ location.name }}</b> (Lvl {{ location.min_level }} - {{ location.recommended_level }})</p>
+            <p><b>{{ location.name }}</b> (Lvl {{ location.recommended_level }})</p>
             {% for it in location.contains.all %}
-              <img class="loot-img" src="{{ it.icon.url }}" alt="{{ it.name }}"></img>
+              <img class="loot-img" src="{{ it.icon.url }}" title="{{ it.name }}"></img>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="locations-column" id="events-column">
+      {% for ev in events %}
+        <div class="event clickable" id="{{ ev.name }}" onclick="toggleEvent(this)">
+          <div class="event-header">
+            <p><b>{{ev.name}}</b>
+              {% for it in ev.rewards.all %}
+                <img class="loot-img" src="{{ it.icon.url }}" title="{{ it.name }}"></img>
+              {% endfor %}
+            </p><p>{{ev.short_description}}</p>
+          </div>
+          <div class="event-body {{ ev.name }}">
+            {{ ev.long_description|safe|linebreaksbr }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="locations-column" id="shifting-earth-column">
+      {% for se in shifting_earth %}
+        <div class="event clickable" id="{{ se.name }}" onclick="toggleEvent(this)">
+          <div class="event-header">
+            <p><b>{{se.name}}</b>
+            </p><p>{{se.short_description}}</p>
+          </div>
+          <div class="event-body {{ se.name }}">
+            {{ se.long_description|safe|linebreaksbr }}
+            {% for step in se.steps.all %}
+              <img class="walkthrough-img" src="{{ step.image.url }}" onclick="openImage(`{{ step.image.url }}`)">
+              {{step.description}}
             {% endfor %}
           </div>
         </div>
@@ -38,7 +76,7 @@
           {% for ex in expeditions %}
           <div class="expedition-option">
             <h2 class="expedition-name clickable" onclick="selectExpedition('{{ ex.id }}')">{{ ex.name }}</h2>
-            <img class="expedition-icon clickable" src="{{ ex.icon.url }}" alt="{{ ex.name }}" title="{{ ex.name }}" onclick="selectExpedition('{{ ex.id }}')">
+            <img class="expedition-icon clickable" src="{{ ex.icon.url }}" title="{{ ex.name }}" title="{{ ex.name }}" onclick="selectExpedition('{{ ex.id }}')">
           </div>
           {% endfor %}
         </div>
@@ -52,7 +90,7 @@
       >
         <div class="expedition">
           <h2 class="expedition-name">{{ ex.name }}</h2>
-          <img src="{{ ex.icon.url }}" alt="{{ ex.name }}" title="{{ ex.name }}" onclick="openExpeditionModal()" class="expedition-icon clickable">
+          <img src="{{ ex.icon.url }}" title="{{ ex.name }}" title="{{ ex.name }}" onclick="openExpeditionModal()" class="expedition-icon clickable">
         </div>
         <div id="nightlord-info" class="nightlord-info">
           {% for nl in ex.Nightlords.all %}
@@ -61,7 +99,7 @@
             <div class="vulnerabilities">
               {% for vul in nl.weaknesses.all %}
                 <div class="vulnerability-entry {% if nl.main_weakness.name == vul.damage.name %}main-weakness{% endif %}">
-                  <img src="{{ vul.damage.icon.url }}" alt="{{ vul.damage.name }}" title="{{ vul.damage.name }}">
+                  <img src="{{ vul.damage.icon.url }}" title="{{ vul.damage.name }}" title="{{ vul.damage.name }}">
                   {% if vul.damage.is_condition %}
                     {% if vul.value == 0 %}
                     <span class="gray">Immune</span>
@@ -79,9 +117,9 @@
         </div>
       </div>
       {% endfor %}
-      </div>
+    </div>
 
-    <div class="character-section">
+    <div class="character-section" id="character-section">
       <div class="tab-container">
         {% for nf in nightfarers %}
           <div class="tab-item{% if forloop.first %} active{% endif %}" onclick="openTab(event, '{{ nf.name }}')">
@@ -119,15 +157,14 @@
         </div>
         {% for nf in nightfarers %}
           <div id="{{ nf.name }}" class="tab-content" style="{% if forloop.first %}display: flex;{% else %}display: none;{% endif %}">
-            <img src="{{ nf.summary.url }}" alt="{{ nf.name }}">
+            <img src="{{ nf.summary.url }}" title="{{ nf.name }}">
           </div>
         {% endfor %}
         <div class="watermark">
           Credit for this image to Boomstick Gaming.
           <a href="https://x.com/BoomstickAlex" target="_blank" rel="noopener noreferrer">
             <img class="watermark-img clickable" src="/static/icons/X.png" alt="@BoomstickAlex">
-          </a>
-          <a href="https://www.youtube.com/boomstickgaming" target="_blank" rel="noopener noreferrer">
+          </a><a href="https://www.youtube.com/boomstickgaming" target="_blank" rel="noopener noreferrer">
             <img class="watermark-img clickable" src="/static/icons/YT.png" alt="@BoomstickGaming">
           </a>
         </div>

@@ -28,8 +28,7 @@ class Nightfarer(models.Model):
 
 class Location(models.Model):
     name = models.CharField(max_length=25)
-    min_level = models.PositiveSmallIntegerField(default=2)
-    recommended_level = models.PositiveSmallIntegerField(default=8)
+    recommended_level = models.PositiveSmallIntegerField(default=5)
     image = models.ImageField(upload_to='Locations')
     contains = models.ManyToManyField(Loot, blank=True)
 
@@ -42,6 +41,7 @@ class Location(models.Model):
 class Expedition(models.Model):
     name = models.CharField(max_length=25)
     icon = models.ImageField(upload_to='Expeditions')
+    display_order = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -65,3 +65,27 @@ class Vulnerability(models.Model):
 
     def __str__(self):
         return f"{self.nightlord} - {self.damage}"
+
+class Event(models.Model):
+    name = models.CharField(max_length=50)
+    short_description = models.TextField()
+    long_description = models.TextField()
+    rewards = models.ManyToManyField(Loot, blank=True)
+    is_shifting_earth = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class Walkthrough(models.Model):
+    parent_event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="steps")
+    step = models.PositiveSmallIntegerField()
+    image = models.ImageField(null=True, blank=True, upload_to="Walkthrough")
+    description = models.TextField(null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["step", "parent_event"], name='unique_walkthrough_step')
+        ]
+
+    def __str__(self):
+        return f"{self.parent_event} - Step {self.step}"
