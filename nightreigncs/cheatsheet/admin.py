@@ -47,7 +47,7 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(Walkthrough)
 class WalkthroughAdmin(admin.ModelAdmin):
-    list_display = ('parent_event', 'step')
+    list_display = ('title', 'parent_event', 'step')
     list_filter = ('parent_event',)
     search_fields = ('parent_event',)
 

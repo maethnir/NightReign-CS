@@ -50,15 +50,18 @@
     </div>
     <div class="locations-column" id="shifting-earth-column">
       {% for se in shifting_earth %}
-        <div class="event clickable" id="{{ se.name }}" onclick="toggleEvent(this)">
-          <div class="event-header">
+        <div class="event" id="{{ se.name }}">
+          <div class="event-header clickable" onclick="toggleEvent(`{{ se.name }}`)">
             <p><b>{{se.name}}</b>
             </p><p>{{se.short_description}}</p>
           </div>
           <div class="event-body {{ se.name }}">
             {{ se.long_description|safe|linebreaksbr }}
             {% for step in se.steps.all %}
-              <img class="walkthrough-img" src="{{ step.image.url }}" onclick="openImage(`{{ step.image.url }}`)">
+              <p><b>{{step.title}}</b></p>
+              {% if step.image %}
+              <img class="walkthrough-img clickable" src="{{ step.image.url }}" onclick="enlargeImage(event)">
+              {% endif %}
               {{step.description}}
             {% endfor %}
           </div>

@@ -77,6 +77,7 @@ class Event(models.Model):
         return f"{self.name}"
 
 class Walkthrough(models.Model):
+    title = models.CharField(max_length=75, default="", blank=True)
     parent_event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="steps")
     step = models.PositiveSmallIntegerField()
     image = models.ImageField(null=True, blank=True, upload_to="Walkthrough")

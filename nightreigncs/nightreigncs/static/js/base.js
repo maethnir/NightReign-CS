@@ -33,7 +33,7 @@ function openLocationTab(evt, tabName) {
 function toggleEvent(clickedEvent) {
   document.querySelectorAll('.event').forEach(event => {
     const body = event.querySelector('.event-body');
-    if (event === clickedEvent) {
+    if (event.id === clickedEvent) {
       body.classList.toggle('active');
     } else {
       body.classList.remove('active');
@@ -62,8 +62,12 @@ function animateScroll(containerSelector, duration = 15000) {
   const maxScroll = container.scrollHeight - container.clientHeight;
   let direction = 1;
   let start = null;
+  let paused = false;
+  let rafId;
 
   function step(timestamp) {
+    if (paused) return;
+
     if (!start) start = timestamp;
     const elapsed = timestamp - start;
     const progress = Math.min(elapsed / duration, 1);
@@ -81,9 +85,22 @@ function animateScroll(containerSelector, duration = 15000) {
     }
   }
 
+  function resume() {
+    if (!paused) return;
+    paused = false;
+    requestAnimationFrame(step);
+  }
+
+  function pause() {
+    paused = true;
+    cancelAnimationFrame(rafId);
+  }
+
+  container.addEventListener("mouseenter", pause);
+  container.addEventListener("mouseleave", resume);
+
   requestAnimationFrame(step);
 }
-
 
 function selectExpedition(expeditionId) {
   // Toggle displays of each expedition
@@ -108,3 +125,34 @@ window.addEventListener("click", function (event) {
 document.addEventListener("DOMContentLoaded", () => {
   animateScroll("#map-locations");
 });
+
+function enlargeImage(event) {
+  const src = event.target.src;
+
+  // Create overlay
+  const overlay = document.createElement("div");
+  overlay.style.position = "fixed";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100vw";
+  overlay.style.height = "100vh";
+  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+  overlay.style.display = "flex";
+  overlay.style.alignItems = "center";
+  overlay.style.justifyContent = "center";
+  overlay.style.zIndex = "9999";
+  overlay.style.cursor = "zoom-out";
+
+  // Create full-size image
+  const fullImg = document.createElement("img");
+  fullImg.src = src;
+  fullImg.style.maxWidth = "90vw";
+  fullImg.style.maxHeight = "90vh";
+  fullImg.style.boxShadow = "0 0 20px black";
+
+  // Remove overlay on click
+  overlay.onclick = () => document.body.removeChild(overlay);
+
+  overlay.appendChild(fullImg);
+  document.body.appendChild(overlay);
+}

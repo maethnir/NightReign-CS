@@ -132,7 +132,8 @@ h3 {
   display: none;
 }
 .event-body.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 .event-body b {
   color: rgb(130, 170, 250);
@@ -143,6 +144,10 @@ h3 {
 }
 .event-body dl {
   padding: 0;
+}
+
+.walkthrough-img {
+  max-width: 20vw;
 }
 
 /* INFO COLUMN */
