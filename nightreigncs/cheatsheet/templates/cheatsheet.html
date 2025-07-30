@@ -62,7 +62,7 @@
               {% if step.image %}
               <img class="walkthrough-img clickable" src="{{ step.image.url }}" onclick="enlargeImage(event)">
               {% endif %}
-              {{step.description}}
+              <p>{{step.description}}</p>
             {% endfor %}
           </div>
         </div>
